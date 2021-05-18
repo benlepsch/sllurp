@@ -5,6 +5,9 @@ __pycache__/
 # C extensions
 *.so
 
+# virtual environment because i forgot to name it with a . in front of the name
+venv/
+
 # Distribution / packaging
 .Python
 .venv/
