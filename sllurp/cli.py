@@ -5,13 +5,12 @@ from __future__ import print_function, unicode_literals
 from collections import namedtuple
 import logging
 import click
-from . import __version__
 from . import log as loggie
-from .verb import reset as _reset
-from .verb import inventory as _inventory
-from .verb import log as _log
-from .verb import access as _access
-from .llrp_proto import Modulation_Name2Type
+from verb import reset as _reset
+from verb import inventory as _inventory
+from verb import log as _log
+from verb import access as _access
+from llrp_proto import Modulation_Name2Type
 
 # Disable Click unicode warning since we use unicode string exclusively
 click.disable_unicode_literals_warning = True
@@ -25,7 +24,6 @@ mods = sorted(Modulation_Name2Type.keys())
 @click.option('-l', '--logfile', type=click.Path())
 def cli(debug, logfile):
     loggie.init_logging(debug, logfile)
-
 
 @cli.command()
 @click.argument('host', type=str, nargs=-1)
@@ -149,9 +147,6 @@ def access(host, port, time, report_every_n_tags, antennas, tx_power, tari,
     _access.main(args)
 
 
-@cli.command()
-def version():
-    print(__version__)
 
 
 @cli.command()

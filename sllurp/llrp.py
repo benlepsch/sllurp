@@ -1227,7 +1227,7 @@ class LLRPClient(LineReceiver):
                 self.tx_power[ant] = tx_pow_idx
                 needs_update = True
 
-            logger.debug('tx_power for antenna %s: %s (%s dBm)', ant,
+            logger.info('tx_power for antenna %s: %s (%s dBm)', ant,
                          tx_pow_idx, tx_pow_dbm)
 
         if needs_update and self.state == LLRPClient.STATE_INVENTORYING:
