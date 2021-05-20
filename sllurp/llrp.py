@@ -409,6 +409,8 @@ class LLRPClient(LineReceiver):
 
     def handleMessage(self, lmsg):
         """Implements the LLRP client state machine."""
+        """TEMP: PAUSES AND RESUMES INVENTORY"""
+        
         logger.debug('LLRPMessage received in state %s: %s', self.state, lmsg)
         msgName = lmsg.getName()
         lmsg.proto = self
@@ -699,6 +701,9 @@ class LLRPClient(LineReceiver):
         if self._deferreds[msgName]:
             logger.error('there should NOT be Deferreds left for %s,'
                          ' but there are!', msgName)
+        
+        self.pause(1)
+        self.resume()
 
     def rawDataReceived(self, data):
         logger.debug('got %d bytes from reader: %s', len(data),
