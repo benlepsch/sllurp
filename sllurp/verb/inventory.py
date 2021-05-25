@@ -27,13 +27,30 @@ def finish(*args):
 def shutdown(factory):
     return factory.politeShutdown()
 
+seen = {}
+delay_time = 0
 
 def tag_report_cb(llrp_msg):
     """Function to run each time the reader reports seeing tags."""
-    global numtags
+    global numtags, seen, delay_time
     tags = llrp_msg.msgdict['RO_ACCESS_REPORT']['TagReportData']
+
     if len(tags):
-        logger.info('saw tag(s): %s', pprint.pformat(tags))
+
+        # delay tag outputs so that the same tags aren't spam reported
+        if seen.get(tags.get('EPC_96')) is not None:
+            # already exists in the dict
+            if monotonic() - seen.get(tags.get('EPC_96')) < delay_time:
+                pass
+            else:
+                # debug tag and reset timer
+                seen[tags.get('EPC_96')] = monotonic()
+                logger.info('saw tag(s): %s', pprint.pformat(tags))
+        else:
+            # add new tags to the dict
+            seen[tags.get('EPC_96')] = monotonic()
+            logger.info('saw tag(s): %s', pprint.pformat(tags))
+        
         for tag in tags:
             numtags += tag['TagSeenCount'][0]
     else:
@@ -107,6 +124,8 @@ def main(args):
 
     # tag_report_cb will be called every time the reader sends a TagReport
     # message (i.e., when it has "seen" tags).
+    global delay_time
+    delay_time = args.delay
     fac.addTagReportCallback(tag_report_cb)
 
     for host in args.host:
