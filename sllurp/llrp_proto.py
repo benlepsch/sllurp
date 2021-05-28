@@ -29,9 +29,9 @@ import struct
 from collections import defaultdict
 from binascii import hexlify, unhexlify
 
-from .util import BIT, BITMASK, func, reverse_dict, iteritems
-from . import llrp_decoder
-from .llrp_errors import LLRPError
+from util import BIT, BITMASK, func, reverse_dict, iteritems
+import llrp_decoder
+from llrp_errors import LLRPError
 
 #
 # Define exported symbols

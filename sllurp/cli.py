@@ -5,7 +5,7 @@ from __future__ import print_function, unicode_literals
 from collections import namedtuple
 import logging
 import click
-from . import log as loggie
+import log as loggie
 from verb import reset as _reset
 from verb import inventory as _inventory
 from verb import log as _log
