@@ -701,6 +701,9 @@ class LLRPClient(LineReceiver):
         if self._deferreds[msgName]:
             logger.error('there should NOT be Deferreds left for %s,'
                          ' but there are!', msgName)
+        
+        self.pause(1)
+        self.resume()
 
     def rawDataReceived(self, data):
         logger.debug('got %d bytes from reader: %s', len(data),
